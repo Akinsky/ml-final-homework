@@ -1,19 +1,30 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 from my_data import MusicData
+from utility import print_time, prediction_heatmap
+from time import time
 
+
+# TODO: Loss Graph
 # https://asperbrothers.com/blog/logistic-regression-in-python/
 
-data = MusicData()
-df = data.get_dataframe()
-X_train, X_test, _, _ = data.get_x_y_split()
-y_train, y_test = data.get_y_categorical()
+def logistic_regression(iterations):
+    data = MusicData()
+    X_train, X_test, _, _ = data.get_x_y_split()
+    y_train, y_test = data.get_y_categorical()
+    y_train = y_train.values.ravel()
 
-model = LogisticRegression()
-model.fit(X_train, y_train)
+    t1 = time()
+    model = LogisticRegression(max_iter=iterations)
+    model.fit(X_train, y_train)
+    t2 = time()
+    training_time = print_time(t1, t2, "Trained the Logistic Regression Model")
 
-y_pred = model.predict(X_test)
-test_acc = accuracy_score(y_test, y_pred)
-print("The Accuracy for Test Set is {}".format(test_acc * 100))
+    y_pred = model.predict(X_test)
 
-print(classification_report(y_test, y_pred))
+    accuracy = accuracy_score(y_test, y_pred) * 100
+    print(f"The Accuracy for the Test Set is {accuracy}")
+    print(classification_report(y_test, y_pred))
+    prediction_heatmap(y_test, y_pred, data.get_y_names(), "logistic_regression")
+
+    return accuracy, training_time
