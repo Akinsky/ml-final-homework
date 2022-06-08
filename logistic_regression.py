@@ -5,9 +5,6 @@ from utility import print_time, prediction_heatmap
 from time import time
 
 
-# TODO: Loss Graph
-# https://asperbrothers.com/blog/logistic-regression-in-python/
-
 def logistic_regression(iterations):
     data = MusicData()
     X_train, X_test, _, _ = data.get_x_y_split()

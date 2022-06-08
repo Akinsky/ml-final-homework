@@ -17,7 +17,7 @@ class MusicData:
 
         self.numeric_features = self.df.drop(['mode', 'music_genre', 'key'], axis=1)
 
-        # self.get_plots()
+        # self.get_plots()  ### Commented for faster executing purposes. Uncomment to generate plots for the first time.
 
         categorical_columns = ['mode', 'music_genre', 'key']
         self.df[categorical_columns] = self.df[categorical_columns].astype('category')
@@ -30,7 +30,7 @@ class MusicData:
             # No OHE, just turn categorical values into numerical.
             self.df[categorical_columns] = self.df[categorical_columns].apply(lambda x: x.cat.codes)
 
-        # self.populate_dataset(dtree)  # Add many new columns.
+        self.populate_dataset(dtree)  # Add many new columns.
 
         if not dtree:
             self.df = self.normalize_features(self.df)  # No need to normalize for decision tree.
@@ -191,14 +191,11 @@ class MusicData:
 
     def get_plots(self):
         self.get_heatmap("heatmap", nums=True, linewidth=1)
-        # self.get_pairplot()
-        # self.get_violinplot()
-        # self.get_histograms(self.numeric_features.columns, 5, 3)
-        # self.get_pairplot_kde()
+        self.get_pairplot()
+        self.get_violinplot()
+        self.get_histograms(self.numeric_features.columns, 5, 3)
+        self.get_pairplot_kde()
         self.get_count_plot("key")
         self.get_count_plot("mode")
         self.get_count_plot("music_genre")
         self.get_box_plots(self.numeric_features.columns)
-
-
-data = MusicData()

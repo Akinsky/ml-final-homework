@@ -1,11 +1,6 @@
-import sys
-import io
 import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import learning_curve
-from time import time
 import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
 
 def print_time(t1, t2, action_name):
